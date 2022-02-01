@@ -7,6 +7,7 @@ const DashAdmin = () => {
 
 
         <div className="w-full px-4 py-2 bg-gray-200 lg:w-full">
+            
                 <div className="container mx-auto mt-12">
                     <div className="grid gap-4 lg:grid-cols-3">
                         <div className="flex items-center px-4 py-6 bg-white rounded-md shadow-md">

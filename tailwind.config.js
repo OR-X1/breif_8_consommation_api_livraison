@@ -1,7 +1,21 @@
+// module.exports = {
+//   content: ["./node_modules/@themesberg/flowbite/**/*.js"],
+  
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [
+//     require('@themesberg/flowbite/plugin')
+// ]
+// }
+
+
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@themesberg/flowbite/plugin')
+  ],
 }
