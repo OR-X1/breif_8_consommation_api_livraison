@@ -1,19 +1,25 @@
 import React from "react";
-// import {  Router, Routes, Route } from "react-router-dom";
 import { BrowserRouter as Router, Routes , Route } from "react-router-dom";
 
-// import "@material-tailwind/react/tailwind.css";
 import './App.css';
-// import SideBar from "./layouts/SideBar";
 
+import ProtectedRouteAdmin from "./ProtectedRoute/ProtectedRouteAdmin";
 import DashAdmin from "./pages/DashAdmin/DashAdmin";
-import Managers from "./pages/Managers/Managers";
+import Managers from "./pages/DashAdmin/Managers";
+import LoginAdmin from "./pages/DashAdmin/Login";
 
-// import SideBar from "./layouts/SideBar"
+import ProtectedRouteManager from "./ProtectedRoute/ProtectedRouteManager";
+import ResponsableLivraison from "./pages/Managers/ResponsableLivraison";
+import Chauffeur from "./pages/Managers/Chauffeur";
+import Vehicule from "./pages/Managers/Vehicule";
+import LoginManager from "./pages/Login/Login";
+
 import NotFound from "./pages/DotFound/NotFound";
-import Login from "./pages/Login/Login";
-
 // require('dotenv').config()
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 
 function App() {
   return (
@@ -22,11 +28,14 @@ function App() {
       <div className="">
         {/* <SideBar></SideBar> */}
         <Routes>
-          <Route exact path="/"               element={<DashAdmin/>}/> 
-          <Route exact path="/managers"               element={<Managers/>}/> 
-          <Route exact path="/RESPO"               element={<RESPO/>}/> 
-          <Route  path="/login"               element={<Login/>}/> 
+          <Route  path="/"               element={<ProtectedRouteAdmin><DashAdmin/></ProtectedRouteAdmin>}/>
+          <Route  path="/managers"               element={<ProtectedRouteAdmin><Managers/></ProtectedRouteAdmin>}/>
+          <Route  path="/dashboard"               element={<LoginAdmin/>}/> 
 
+          <Route  path="/responsablelivraison"           element={<ProtectedRouteManager><ResponsableLivraison/></ProtectedRouteManager>}/>
+          <Route  path="/chauffeur"                      element={<ProtectedRouteManager><Chauffeur/></ProtectedRouteManager>}/>
+          <Route  path="/vehicule"                       element={<ProtectedRouteManager><Vehicule/></ProtectedRouteManager>}/>
+          <Route  path="/dashboardmanager"               element={<LoginManager/>}/> 
 
 
           <Route  path="*"               element={<NotFound/>}/> 

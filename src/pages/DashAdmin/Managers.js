@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Input from "@material-tailwind/react/Input";
 import SideBar from "../../layouts/SideBar";
+import NavBar from "../../layouts/NavBar";
 // import useFetch from "../../useFetch";
 // import Card from "components/card";
 // require('dotenv').config()
@@ -14,7 +14,7 @@ const DashAdmin = () => {
 
     const [data, setDatas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
 
     
     useEffect( () => {
@@ -66,13 +66,23 @@ const DashAdmin = () => {
           }
         
         console.log(form_data);
-
+        setTimeout(() => {
         axios.post('http://localhost:3000/api/manager/create_manager',form_data
             ).then(response => {
-                        console.log('good')
+                
+                if(response.data.result){
+                    console.log('good')
                         setIsLoadingsubmit(false);
                         window.location.reload()
+                        console.log(response.data.msg);
+                }else{
+                    console.log(response.data.msg);
+                    setIsLoadingsubmit(false);
+                    setError(response.data.msg)
+                }
+                
             }).catch(error =>{
+                
                 
                 console.log("error"+error);
                 // setIsLoadingsubmit(false);
@@ -91,97 +101,81 @@ const DashAdmin = () => {
                 // }
             }
             )
+        }, 1000);
 
     }
-    
+
     return (
-<div className="flex h-screen">
+<div className="flex h-full">
     
 <SideBar></SideBar>
 
 <div className="w-full px-4 py-2 bg-gray-200 lg:w-full">
+    {/* <NavBar></NavBar> */}
         <div className="container mx-auto mt-12">
             
             <div className="flex flex-col mt-8">
-                <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6  lg:px-8">
+                <div className="py-2 -my-2 overflow-x-auto ">
 
                 <div>
                     <p className="text-3xl font-semibold">Manager</p>
                 </div>
 
 
-                <button class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-10 float-right" type="button" data-modal-toggle="defaultModal">
+                <button className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-10 float-right" type="button" data-modal-toggle="defaultModal">
                 Add New Manager
                 </button>
 
-<div id="defaultModal" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0">
-<div class="relative px-4 w-full max-w-2xl h-full md:h-auto">
+<div id="defaultModal" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0">
+<div className="relative px-4 w-full max-w-2xl h-full md:h-auto">
 
-<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
-    <div class="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
-        <h3 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
+    <div className="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
+        <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
         Add New Manager
         </h3>
-        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         </button>
     </div>
 
         <form onSubmit={handleSubmit}>
-    <div class="p-6 space-y-6">
+    <div className="p-6 space-y-6">
+            {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> }
+    
             <div className="flex my-2">
-            <label class="block w-full mr-2">
-                <span class="block text-sm font-medium text-slate-700">First name</span>
-                <input type="text" required value={name_manager} name="" onChange={e => setName_manager(e.target.value)}  class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+            <label className="block w-full mr-2">
+                <span className="block text-sm font-medium text-slate-700">First name</span>
+                <input type="text" required value={name_manager} name="" onChange={e => setName_manager(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
-            <label class="block w-full ml-2">
-                <span class="block text-sm font-medium text-slate-700">Last name</span>
-                <input type="text" required value={lastname_manager} onChange={e => setLastname_manager(e.target.value)}  class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+            <label className="block w-full ml-2">
+                <span className="block text-sm font-medium text-slate-700">Last name</span>
+                <input type="text" required value={lastname_manager} onChange={e => setLastname_manager(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             </div>
-            <label class="block my-2">
-                <span class="block text-sm font-medium text-slate-700">Email</span>
-                <input type="email" required value={email_manager} onChange={e => setEmail_manager(e.target.value)}  class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+            <label className="block my-2">
+                <span className="block text-sm font-medium text-slate-700">Email</span>
+                <input type="email" required value={email_manager} onChange={e => setEmail_manager(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
-            <label class="block my-2">
-                <span class="block text-sm font-medium text-slate-700">Password</span>
-                <input type="password" required value={password_manager} onChange={e => setPassword_manager(e.target.value)}  class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+            <label className="block my-2">
+                <span className="block text-sm font-medium text-slate-700">Password</span>
+                <input type="password" required value={password_manager} onChange={e => setPassword_manager(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
-            <label class="block my-2">
-                <span class="block text-sm font-medium text-slate-700">Confirm password</span>
-                <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+            <label className="block my-2">
+                <span className="block text-sm font-medium text-slate-700">Confirm password</span>
+                <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
     </div>
 
-    <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-        <input  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
-        <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Cancel</button>
+    <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+        <input  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
+        <button data-modal-toggle="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Cancel</button>
     </div>
         </form>
 </div>
@@ -273,12 +267,12 @@ const DashAdmin = () => {
                             </tbody>
                         </table>
                     </div>
-                        {isLoading && <div className="my-10 btn loading text-center">
-                        <svg role="status" class="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-</svg>
-Loading...</div> }
+                        {isLoading && <div className="my-20 grid justify-center">
+                        <svg role="status" className="mx-auto w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        Loading...</div> }
 
                         
                 </div>
