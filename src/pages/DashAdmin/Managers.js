@@ -111,7 +111,7 @@ const DashAdmin = () => {
 <SideBar></SideBar>
 
 <div className="w-full px-4 py-2 bg-gray-200 lg:w-full">
-    {/* <NavBar></NavBar> */}
+    <NavBar></NavBar>
         <div className="container mx-auto mt-12">
             
             <div className="flex flex-col mt-8">

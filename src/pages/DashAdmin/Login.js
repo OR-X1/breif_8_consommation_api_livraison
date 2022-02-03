@@ -33,6 +33,15 @@ const Login = () => {
                             localStorage.setItem('auth_token',response.data.token)
                             localStorage.setItem('datau_user',JSON.stringify(response.data.data_login_admin))
 
+                            const data_login_admin = {
+                                email: response.data.data_login_admin.email_admin,
+                                lastname: response.data.data_login_admin.lastname_admin,
+                                name: response.data.data_login_admin.name_admin,
+                                id: response.data.data_login_admin._id
+                            }
+                            console.log(data_login_admin);
+                            localStorage.setItem('datau_user',JSON.stringify(data_login_admin))
+
                             console.log("token : ");
                             console.log(JSON.parse(localStorage.getItem('datau_user')).email_admin);
                             console.log(response.data.data_login_admin);

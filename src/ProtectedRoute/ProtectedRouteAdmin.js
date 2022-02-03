@@ -9,11 +9,12 @@ function ProtectedRouteAdmin({children}) {
 
     var decoded = jwt_decode(token);
 
+    console.log(decoded.role);
     console.log(token);
     console.log(decoded);
 
-    if( !token && !token.role === "admin")return  <Navigate to="/dashboard"/>
-    return  children
+    if( decoded.role === "admin")return  children
+    return   <Navigate to="/dashboard"/>
 
 }
 

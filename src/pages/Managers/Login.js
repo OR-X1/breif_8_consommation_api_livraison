@@ -31,7 +31,15 @@ const Login = () => {
                             // setErrorpass('')
                             setError('')
                             localStorage.setItem('auth_token',response.data.token)
-                            localStorage.setItem('datau_user',JSON.stringify(response.data.data_login_manager))
+
+                            const data_login_manager = {
+                                email: response.data.data_login_manager.email_manager,
+                                lastname: response.data.data_login_manager.lastname_manager,
+                                name: response.data.data_login_manager.name_manager,
+                                id: response.data.data_login_manager._id
+                            }
+                            console.log(data_login_manager);
+                            localStorage.setItem('datau_user',JSON.stringify(data_login_manager))
 
                             console.log("token : ");
                             console.log(JSON.parse(localStorage.getItem('datau_user')).email_manager);
@@ -40,7 +48,7 @@ const Login = () => {
                             // localStorage.setItem('auth_user', JSON.stringify(response.data.user))
                             setIsLoadingsubmit(false);
                             console.log("good");
-                            navigate('/')
+                            navigate('/responsablelivraison')
                             }else{
                                 setIsLoadingsubmit(false);
                                 setError(response.data.err)

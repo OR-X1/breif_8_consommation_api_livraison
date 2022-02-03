@@ -12,7 +12,7 @@ const NavBar = () => {
     .then(response => {
       localStorage.removeItem('auth_token')
       localStorage.removeItem('datau_user')
-      navigate('/login')
+      navigate('/dashboard')
     }).catch(error =>{
       console.log("error logout");
     })
@@ -28,13 +28,13 @@ const NavBar = () => {
         <div className="flex items-center  md:order-2">
             <button type="button" className="flex  mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" type="button" data-dropdown-toggle="dropdown">
               <span className="sr-only">Open user menu</span>
-              <img className="w-8 h-8 rounded-full" src={`http://placehold.it/150x150/0F172A/FFFFFF?text=`+JSON.parse(localStorage.getItem('datau_user')).name_manager.charAt(0)+"+"+JSON.parse(localStorage.getItem('datau_user')).lastname_manager.charAt(0)} alt="user"/>
+              <img className="w-8 h-8 rounded-full" src={`http://placehold.it/150x150/0F172A/FFFFFF?text=`+JSON.parse(localStorage.getItem('datau_user')).name.charAt(0)+"+"+JSON.parse(localStorage.getItem('datau_user')).lastname.charAt(0)} alt="user"/>
             </button>
             {/* <!-- Dropdown menu --> */}
             <div className="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown">
               <div className="py-3 px-4">
-                <span className="block text-sm text-gray-900 dark:text-white">{JSON.parse(localStorage.getItem('datau_user')).name_manager +" "+ JSON.parse(localStorage.getItem('datau_user')).lastname_manager}</span>
-                <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{JSON.parse(localStorage.getItem('datau_user')).email_manager}</span>
+                <span className="block text-sm text-gray-900 dark:text-white">{JSON.parse(localStorage.getItem('datau_user')).name +" "+ JSON.parse(localStorage.getItem('datau_user')).lastname}</span>
+                <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{JSON.parse(localStorage.getItem('datau_user')).email}</span>
               </div>
               <ul className="py-1" aria-labelledby="dropdown">
               <li>

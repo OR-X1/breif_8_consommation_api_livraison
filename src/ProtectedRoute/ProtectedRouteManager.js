@@ -10,10 +10,10 @@ function ProtectedRouteManager({children}) {
     var decoded = jwt_decode(token);
 
     console.log(token);
-    console.log(decoded);
+    console.log(decoded.role);
     
-    if( !token && !token.role === "manager")return  <Navigate to="/dashboardmanager"/>
-    return  children
+    if( decoded.role === "manager")return  children
+    return   <Navigate to="/dashboardmanager"/>
 
 }
 

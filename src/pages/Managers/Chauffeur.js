@@ -64,7 +64,7 @@ const Chauffeur = () => {
             email_chauffeur: email_chauffeur,
             password_chauffeur: password_chauffeur,
             passwordconfirm: passwordconfirm,
-            manager_id: manager_id
+            manager_id: manager_id.id
           }
         
         console.log(form_data);
@@ -111,7 +111,7 @@ const Chauffeur = () => {
 <SideBar></SideBar>
 
 <div className="w-full px-4 py-2 bg-gray-200 lg:w-full">
-    {/* <NavBar></NavBar> */}
+    <NavBar></NavBar>
         <div className="container mx-auto mt-12">
             
             <div className="flex flex-col mt-8">
