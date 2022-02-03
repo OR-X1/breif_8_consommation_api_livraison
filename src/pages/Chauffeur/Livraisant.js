@@ -10,7 +10,7 @@ import jwt_decode from "jwt-decode";
 // import Card from "components/card";
 // require('dotenv').config()
 
-const Chauffeur = () => {
+const Livraisant = () => {
 
     // const { data } = useFetch('http://localhost:3000/api/manager/getAllmanagers');
 
@@ -23,7 +23,7 @@ const Chauffeur = () => {
     useEffect( () => {
         setTimeout(() => {
         // fetch(`${process.env.REACT_APP_API_URL}manager/getAllmanagers`)
-        fetch('http://localhost:3000/api/chauffeur/getAll_chauffeur')
+        fetch('http://localhost:3000/api/livraisant/disponible')
         .then(async response =>{
             
             const varr = await response.json()
@@ -40,12 +40,11 @@ const Chauffeur = () => {
     },[]);
 
 
-    const [name_chauffeur, setName_chauffeur] = useState([]);
-    const [lastname_chauffeur, setLastname_chauffeur] = useState([]);
-    const [email_chauffeur, setEmail_chauffeur] = useState([]);
-    const [password_chauffeur, setPassword_chauffeur] = useState([]);
-    const [passwordconfirm, setPasswordconfirm] = useState([]);
-    const [vehicule_id, setVehicule_id] = useState([]);
+    const [date_depart, setDate_depart] = useState([]);
+    const [ville_depart, setville_depart] = useState([]);
+    const [ville_arrive, setVille_arrive] = useState([]);
+    const [poids, setPoids] = useState([]);
+    const [zone, setZone] = useState([]);
 
     const [isloadingsubmit, setIsLoadingsubmit] = useState(false);
 
@@ -55,34 +54,32 @@ const Chauffeur = () => {
         setIsLoadingsubmit(true);
 
 
-        const token = localStorage.getItem('auth_token');
+        // const token = localStorage.getItem('auth_token');
 
-        var manager_id = jwt_decode(token);
+        // var manager_id = jwt_decode(token);
 
         const form_data = {
-            name_chauffeur: name_chauffeur,
-            lastname_chauffeur: lastname_chauffeur,
-            email_chauffeur: email_chauffeur,
-            password_chauffeur: password_chauffeur,
-            passwordconfirm: passwordconfirm,
-            vehicule_id: vehicule_id,
-            manager_id: manager_id.id
+            date_depart: date_depart,
+            ville_depart: ville_depart,
+            ville_arrive: ville_arrive,
+            poids: poids,
+            zone: zone
           }
 
         console.log(form_data);
         setTimeout(() => {
-        axios.post('http://localhost:3000/api/chauffeur/create_chauffeur',form_data
+        axios.post('http://localhost:3000/api/livraisant/create_livraisant',form_data
             ).then(response => {
                 
                 if(response.data.result){
                     console.log('good')
                         setIsLoadingsubmit(false);
                         window.location.reload()
-                        console.log(response.data.msg);
+                        // console.log(response.data.msg);
                 }else{
                     console.log(response.data.msg);
                     setIsLoadingsubmit(false);
-                    setError(response.data.msg)
+                    // setError(response.data.msg)
                 }
                         
             }).catch(error =>{
@@ -120,12 +117,12 @@ const Chauffeur = () => {
                 <div className="py-2 -my-2 overflow-x-auto ">
 
                 <div>
-                    <p className="text-3xl font-semibold">Manager</p>
+                    <p className="text-3xl font-semibold">Livraisant</p>
                 </div>
 
 
                 <button className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-10 float-right" type="button" data-modal-toggle="defaultModal">
-                Add New Manager
+                Add New Livraisant
                 </button>
 
 <div id="defaultModal" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0">
@@ -154,41 +151,49 @@ const Chauffeur = () => {
 
         <form onSubmit={handleSubmit}>
     <div className="p-6 space-y-6">
-            {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> }
+            {/* {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> } */}
     
             <div className="flex my-2">
             <label className="block w-full mr-2">
-                <span className="block text-sm font-medium text-slate-700">First name</span>
-                <input type="text" required value={name_chauffeur} name="" onChange={e => setName_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <span className="block text-sm font-medium text-slate-700">ville depart</span>
+                <input type="text" required value={ville_depart} name="" onChange={e => setville_depart(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             <label className="block w-full ml-2">
-                <span className="block text-sm font-medium text-slate-700">Last name</span>
-                <input type="text" required value={lastname_chauffeur} onChange={e => setLastname_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <span className="block text-sm font-medium text-slate-700">ville arrive</span>
+                <input type="text" required value={ville_arrive} onChange={e => setVille_arrive(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             </div>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Email</span>
-                <input type="email" required value={email_chauffeur} onChange={e => setEmail_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+            <div className="flex my-2">
+                <label className="block w-full mr-2">
+                    <span className="block text-sm font-medium text-slate-700">poids</span>
+                    <input type="number" min="1" required value={poids} onChange={e => setPoids(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                    "/>
+                </label>
+                <label className="block w-full ml-2">
+                    <span className="block text-sm font-medium text-slate-700">poids</span>
+                    <input type="date" required value={date_depart} onChange={e => setDate_depart(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                    "/>
+                </label>
+            </div>
+
+            {/* <label className="block my-2">
+                <span className="block text-sm font-medium text-slate-700">zone</span>
+                <input type="text" required value={zone} onChange={e => setZone(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
-            </label>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Password</span>
-                <input type="password" required value={password_chauffeur} onChange={e => setPassword_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Confirm password</span>
-                <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
+            </label> */}
             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Vehicule</label>
-            <select value={vehicule_id}  onChange={e => setVehicule_id(e.target.value)} id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                {vehicule.map((ithem) => (
-                <option key={ithem._id} value={ithem._id} >{ithem.matricule},  {ithem.name_vehicule}</option> 
-                )) 
-                } 
+            <select value={ zone }
+                    onChange={(e) => setZone(e.target.value)}
+                    id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                <option value={'maroc'}>maroc</option> 
+                <option value={'europe'}>europe</option> 
+                <option value={'amerique'}>amerique</option> 
+                <option value={'asie'}>asie</option> 
+                <option value={'australie'}>australie</option> 
+
             </select>
     </div>
 
@@ -208,16 +213,28 @@ const Chauffeur = () => {
                             <thead>
                                 <tr>
                                     <th
-                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        First name</th>
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        ville_depart</th>
                                     <th
-                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        Last name</th>
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        ville_arrive</th>
                                     <th
-                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        Email</th>
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        date_depart</th>
                                     <th
-                                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        poids</th>
+                                        <th
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        prix</th>
+                                    <th
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        distance_km</th>
+                                    <th
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                        zone</th>
+                                    <th
+                                        className="px-6 py-3 text-xs text-center font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                         action</th>
                                 </tr>
                             </thead>
@@ -228,45 +245,61 @@ const Chauffeur = () => {
                                 {data.map((ithem) => (
                                         <tr key={ithem._id}>
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                            <div className="flex items-center">
-                                                <div className="flex-shrink-0 w-10 h-10">
-                                                    <img className="w-10 h-10 rounded-full"
-                                                        src="https://source.unsplash.com/user/erondu"
-                                                        alt="admin dashboard ui" />
-                                                </div>
-
+                                            {/* <div className="flex items-center"> */}
                                                 <div className="ml-4">
-                                                    <div className="text-sm font-medium leading-5 text-gray-900">
-                                                        {ithem.name_chauffeur}
+                                                    <div className="text-sm text-center font-medium leading-5 text-gray-900">
+                                                        {ithem.ville_depart}
+                                                    </div>
+                                                </div>
+                                            {/* </div> */}
+                                        </td>
+
+                                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <div className="text-sm text-center font-medium leading-5 text-gray-900">
+                                                {ithem.ville_arrive}
+                                            </div>
+                                        </td>
+
+                                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <span
+                                                className="inline-flex px-2 text-xs text-center font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                                    {ithem.date_depart}
+                                                </span>
+                                        </td>
+                                        
+                                        <td
+                                            className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                              <div className="text-sm text-center leading-5 text-gray-500">
+                                                {ithem.poids}
+                                            </div>
+                                        </td>
+
+                                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <div className="flex items-center">
+                                                <div className="ml-4">
+                                                    <div className="text-sm text-center font-medium leading-5 text-gray-900">
+                                                        {ithem.prix}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                            <div className="text-sm leading-5 text-gray-500">
-                                                {ithem.lastname_chauffeur}
+                                            <div className="text-sm text-center leading-5 text-gray-500">
+                                                {ithem.distance_km}
                                             </div>
                                         </td>
 
-                                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        <td className="px-6 py-4 text-center whitespace-no-wrap border-b border-gray-200">
                                             <span
                                                 className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                                                    {ithem.email_chauffeur}
+                                                    {ithem.zone}
                                                 </span>
                                         </td>
                                         
                                         <td
-                                            className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                              <div className='flex'>
-                                                 <Link to="">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-blue-400"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                    </svg>
-                                                 </Link>
+                                            className="px-6 py-4 text-sm  leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                                              <div className='flex justify-center'>
                                                   
                                                   <Link to="">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-red-400"
@@ -302,4 +335,4 @@ const Chauffeur = () => {
     );
 }
 
-export default Chauffeur;
+export default Livraisant;

@@ -12,8 +12,8 @@ function ProtectedRouteChauffeur({children}) {
     console.log(token);
     console.log(decoded);
     
-    if( !token && !token.role === "chauffeur")return  <Navigate to="/login"/>
-    return  children
+    if( decoded.role === "chauffeur")return   children
+    return  <Navigate to="/dashboard/chauffeur"/>
 
 }
 

@@ -12,8 +12,8 @@ function ProtectedRouteResponsableLivraison({children}) {
     console.log(token);
     console.log(decoded);
     
-    if( !token && !token.role === "responsableLivraison")return  <Navigate to="/login"/>
-    return  children
+    if( decoded.role === "responsableLivraison")return  children
+    return   <Navigate to="/dashboard/responsableLivraison"/>
 
 }
 

@@ -12,7 +12,7 @@ const NavBar = () => {
     .then(response => {
       localStorage.removeItem('auth_token')
       localStorage.removeItem('datau_user')
-      navigate('/dashboard')
+      navigate('/dashboard/manager')
     }).catch(error =>{
       console.log("error logout");
     })

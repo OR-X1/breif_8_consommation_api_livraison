@@ -17,23 +17,29 @@ const ResponsableLivraison = () => {
     const [error, setError] = useState("");
 
     
-    useEffect( () => {
-        setTimeout(() => {
-        // fetch(`${process.env.REACT_APP_API_URL}manager/getAllmanagers`)
-        fetch('http://localhost:3000/api/responsableLivraison/getAll_responsableLivraison')
-        .then(async response =>{
-            
-            const varr = await response.json()
-            
-            setDatas(varr.result);
-            setIsLoading(false);
-            console.log(varr);
-        }).catch(err=>{
-            setIsLoading(false);
-            console.log('faild to fetch');
-        })
+    const fetchData = () => {
+        // useEffect( () => {
+            setTimeout(() => {
+            // fetch(`${process.env.REACT_APP_API_URL}manager/getAllmanagers`)
+            fetch('http://localhost:3000/api/responsableLivraison/getAll_responsableLivraison')
+            .then(async response =>{
+                
+                const varr = await response.json()
+                
+                setDatas(varr.result);
+                setIsLoading(false);
+                console.log(varr);
+            }).catch(err=>{
+                setIsLoading(false);
+                console.log('faild to fetch');
+            })
+    
+            }, 1000);
+        // },[]);
+    }
 
-        }, 1000);
+    useEffect( () => {
+        fetchData()
     },[]);
 
 
@@ -62,21 +68,21 @@ const ResponsableLivraison = () => {
         setTimeout(() => {
         axios.post('http://localhost:3000/api/responsableLivraison/create_responsableLivraison',form_data
             ).then(response => {
-                
+
                 if(response.data.result){
                     console.log('good')
                         setIsLoadingsubmit(false);
-                        window.location.reload()
+                        // window.location.reload()
+                        fetchData()
                         console.log(response.data.msg);
                 }else{
                     console.log(response.data.msg);
                     setIsLoadingsubmit(false);
                     setError(response.data.msg)
                 }
-                        
+
             }).catch(error =>{
-                
-                
+
                 console.log("error"+error);
             }
             )
@@ -111,52 +117,64 @@ const ResponsableLivraison = () => {
 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
     <div className="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
-        <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
+        {/* <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
         Add New Responsable de Livraison
-        </h3>
+        </h3> */}
+        <div>
+                        <div class="w-full flex justify-start text-gray-600 mb-3">
+                            <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-wallet" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
+                                <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                            </svg>
+                        </div>
+                        <h1 class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4">Add New Responsable de Livraison</h1>
+        </div>
+
         <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         </button>
     </div>
 
         <form onSubmit={handleSubmit}>
-    <div className="p-6 space-y-6">
-            {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> }
-    
-            <div className="flex my-2">
-            <label className="block w-full mr-2">
-                <span className="block text-sm font-medium text-slate-700">First name</span>
-                <input type="text" required value={name_responsableL} name="" onChange={e => setName_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
-            <label className="block w-full ml-2">
-                <span className="block text-sm font-medium text-slate-700">Last name</span>
-                <input type="text" required value={lastname_responsableL} onChange={e => setLastname_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
+            <div className="p-6 space-y-6">
+                    {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> }
+            
+                    <div className="flex my-2">
+                    <label className="block w-full mr-2">
+                        <span className="block text-sm font-medium text-slate-700">First name</span>
+                        <input type="text" required value={name_responsableL} name="" onChange={e => setName_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        "/>
+                    </label>
+                    <label className="block w-full ml-2">
+                        <span className="block text-sm font-medium text-slate-700">Last name</span>
+                        <input type="text" required value={lastname_responsableL} onChange={e => setLastname_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        "/>
+                    </label>
+                    </div>
+                    <label className="block my-2">
+                        <span className="block text-sm font-medium text-slate-700">Email</span>
+                        <input type="email" required value={email_responsableL} onChange={e => setEmail_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        "/>
+                    </label>
+                    <label className="block my-2">
+                        <span className="block text-sm font-medium text-slate-700">Password</span>
+                        <input type="password" required value={password_responsableL} onChange={e => setPassword_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        "/>
+                    </label>
+                    <label className="block my-2">
+                        <span className="block text-sm font-medium text-slate-700">Confirm password</span>
+                        <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        "/>
+                    </label>
             </div>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Email</span>
-                <input type="email" required value={email_responsableL} onChange={e => setEmail_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Password</span>
-                <input type="password" required value={password_responsableL} onChange={e => setPassword_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
-            <label className="block my-2">
-                <span className="block text-sm font-medium text-slate-700">Confirm password</span>
-                <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
-                "/>
-            </label>
-    </div>
 
-    <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-        <input  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
-        <button data-modal-toggle="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Cancel</button>
-    </div>
+            <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                <input data-modal-toggle="defaultModal"  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
+                <button data-modal-toggle="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Cancel</button>
+            </div>
         </form>
+
 </div>
 </div>
 </div>

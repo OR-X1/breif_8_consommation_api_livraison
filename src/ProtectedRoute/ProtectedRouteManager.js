@@ -13,7 +13,7 @@ function ProtectedRouteManager({children}) {
     console.log(decoded.role);
     
     if( decoded.role === "manager")return  children
-    return   <Navigate to="/dashboardmanager"/>
+    return   <Navigate to="/dashboard/manager"/>
 
 }
 

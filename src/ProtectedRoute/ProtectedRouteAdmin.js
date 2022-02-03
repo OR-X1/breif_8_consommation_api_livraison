@@ -14,7 +14,7 @@ function ProtectedRouteAdmin({children}) {
     console.log(decoded);
 
     if( decoded.role === "admin")return  children
-    return   <Navigate to="/dashboard"/>
+    return   <Navigate to="/dashboard/admin"/>
 
 }
 

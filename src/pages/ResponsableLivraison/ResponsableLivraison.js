@@ -4,48 +4,50 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import SideBar from "../../layouts/SideBar";
 import NavBar from "../../layouts/NavBar";
-
-import jwt_decode from "jwt-decode";
 // import useFetch from "../../useFetch";
 // import Card from "components/card";
 // require('dotenv').config()
 
-const Chauffeur = () => {
+const ResponsableLivraison = () => {
 
     // const { data } = useFetch('http://localhost:3000/api/manager/getAllmanagers');
 
     const [data, setDatas] = useState([]);
-    const [vehicule, setVehicule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
 
     
-    useEffect( () => {
-        setTimeout(() => {
-        // fetch(`${process.env.REACT_APP_API_URL}manager/getAllmanagers`)
-        fetch('http://localhost:3000/api/chauffeur/getAll_chauffeur')
-        .then(async response =>{
-            
-            const varr = await response.json()
-            
-            setDatas(varr.result);
-            setIsLoading(false);
-            console.log(varr);
-        }).catch(err=>{
-            setIsLoading(false);
-            console.log('faild to fetch');
-        })
+    const fetchData = () => {
+        // useEffect( () => {
+            setTimeout(() => {
+            // fetch(`${process.env.REACT_APP_API_URL}manager/getAllmanagers`)
+            fetch('http://localhost:3000/api/responsableLivraison/getAll_responsableLivraison')
+            .then(async response =>{
+                
+                const varr = await response.json()
+                
+                setDatas(varr.result);
+                setIsLoading(false);
+                console.log(varr);
+            }).catch(err=>{
+                setIsLoading(false);
+                console.log('faild to fetch');
+            })
+    
+            }, 1000);
+        // },[]);
+    }
 
-        }, 1000);
+    useEffect( () => {
+        fetchData()
     },[]);
 
 
-    const [name_chauffeur, setName_chauffeur] = useState([]);
-    const [lastname_chauffeur, setLastname_chauffeur] = useState([]);
-    const [email_chauffeur, setEmail_chauffeur] = useState([]);
-    const [password_chauffeur, setPassword_chauffeur] = useState([]);
+    const [name_responsableL, setName_responsableL] = useState([]);
+    const [lastname_responsableL, setLastname_responsableL] = useState([]);
+    const [email_responsableL, setEmail_responsableL] = useState([]);
+    const [password_responsableL, setPassword_responsableL] = useState([]);
     const [passwordconfirm, setPasswordconfirm] = useState([]);
-    const [vehicule_id, setVehicule_id] = useState([]);
 
     const [isloadingsubmit, setIsLoadingsubmit] = useState(false);
 
@@ -54,30 +56,24 @@ const Chauffeur = () => {
         e.preventDefault();
         setIsLoadingsubmit(true);
 
-
-        const token = localStorage.getItem('auth_token');
-
-        var manager_id = jwt_decode(token);
-
         const form_data = {
-            name_chauffeur: name_chauffeur,
-            lastname_chauffeur: lastname_chauffeur,
-            email_chauffeur: email_chauffeur,
-            password_chauffeur: password_chauffeur,
+            name_responsableL: name_responsableL,
+            lastname_responsableL: lastname_responsableL,
+            email_responsableL: email_responsableL,
+            password_responsableL: password_responsableL,
             passwordconfirm: passwordconfirm,
-            vehicule_id: vehicule_id,
-            manager_id: manager_id.id
           }
-
+        
         console.log(form_data);
         setTimeout(() => {
-        axios.post('http://localhost:3000/api/chauffeur/create_chauffeur',form_data
+        axios.post('http://localhost:3000/api/responsableLivraison/create_responsableLivraison',form_data
             ).then(response => {
                 
                 if(response.data.result){
                     console.log('good')
                         setIsLoadingsubmit(false);
-                        window.location.reload()
+                        // window.location.reload()
+                        fetchData()
                         console.log(response.data.msg);
                 }else{
                     console.log(response.data.msg);
@@ -87,25 +83,13 @@ const Chauffeur = () => {
                         
             }).catch(error =>{
                 
+                
                 console.log("error"+error);
             }
             )
         }, 1000);
 
     }
-
-    useEffect( () => {
-        fetch('http://localhost:3000/api/vehicule/getAll_vehicule')
-        .then(async response =>{
-            
-            const varr = await response.json()
-            
-            setVehicule(varr.result);
-            console.log(varr);
-        }).catch(err=>{
-            console.log('faild to fetch');
-        })
-    },[]);
 
     return (
 <div className="flex h-full">
@@ -120,12 +104,12 @@ const Chauffeur = () => {
                 <div className="py-2 -my-2 overflow-x-auto ">
 
                 <div>
-                    <p className="text-3xl font-semibold">Manager</p>
+                    <p className="text-3xl font-semibold">Responsable de Livraison</p>
                 </div>
 
 
                 <button className="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-10 float-right" type="button" data-modal-toggle="defaultModal">
-                Add New Manager
+                Add New Responsable de Livraison
                 </button>
 
 <div id="defaultModal" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0">
@@ -135,7 +119,7 @@ const Chauffeur = () => {
 
     <div className="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
         {/* <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
-        Add New Manager
+        Add New Responsable de Livraison
         </h3> */}
         <div>
                         <div class="w-full flex justify-start text-gray-600 mb-3">
@@ -145,8 +129,9 @@ const Chauffeur = () => {
                                 <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
                             </svg>
                         </div>
-                        <h1 class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4">Add New Manager</h1>
+                        <h1 class="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4">Add New Responsable de Livraison</h1>
         </div>
+
         <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         </button>
@@ -159,23 +144,23 @@ const Chauffeur = () => {
             <div className="flex my-2">
             <label className="block w-full mr-2">
                 <span className="block text-sm font-medium text-slate-700">First name</span>
-                <input type="text" required value={name_chauffeur} name="" onChange={e => setName_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <input type="text" required value={name_responsableL} name="" onChange={e => setName_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             <label className="block w-full ml-2">
                 <span className="block text-sm font-medium text-slate-700">Last name</span>
-                <input type="text" required value={lastname_chauffeur} onChange={e => setLastname_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <input type="text" required value={lastname_responsableL} onChange={e => setLastname_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             </div>
             <label className="block my-2">
                 <span className="block text-sm font-medium text-slate-700">Email</span>
-                <input type="email" required value={email_chauffeur} onChange={e => setEmail_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <input type="email" required value={email_responsableL} onChange={e => setEmail_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             <label className="block my-2">
                 <span className="block text-sm font-medium text-slate-700">Password</span>
-                <input type="password" required value={password_chauffeur} onChange={e => setPassword_chauffeur(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                <input type="password" required value={password_responsableL} onChange={e => setPassword_responsableL(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
             <label className="block my-2">
@@ -183,17 +168,10 @@ const Chauffeur = () => {
                 <input type="password" required value={passwordconfirm}  onChange={e => setPasswordconfirm(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
                 "/>
             </label>
-            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Vehicule</label>
-            <select value={vehicule_id}  onChange={e => setVehicule_id(e.target.value)} id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                {vehicule.map((ithem) => (
-                <option key={ithem._id} value={ithem._id} >{ithem.matricule},  {ithem.name_vehicule}</option> 
-                )) 
-                } 
-            </select>
     </div>
 
     <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-        <input  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
+        <input data-modal-toggle="defaultModal"  type="submit" value={isloadingsubmit ? 'loading...' : 'I accept'} disabled={isloadingsubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 loading" />
         <button data-modal-toggle="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Cancel</button>
     </div>
         </form>
@@ -237,7 +215,7 @@ const Chauffeur = () => {
 
                                                 <div className="ml-4">
                                                     <div className="text-sm font-medium leading-5 text-gray-900">
-                                                        {ithem.name_chauffeur}
+                                                        {ithem.name_responsableL}
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,14 +223,14 @@ const Chauffeur = () => {
 
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                             <div className="text-sm leading-5 text-gray-500">
-                                                {ithem.lastname_chauffeur}
+                                                {ithem.lastname_responsableL}
                                             </div>
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                             <span
                                                 className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                                                    {ithem.email_chauffeur}
+                                                    {ithem.email_responsableL}
                                                 </span>
                                         </td>
                                         
@@ -302,4 +280,4 @@ const Chauffeur = () => {
     );
 }
 
-export default Chauffeur;
+export default ResponsableLivraison;
