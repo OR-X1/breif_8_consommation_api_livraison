@@ -7,8 +7,8 @@ import { isExpired, decodeToken } from "react-jwt";
 // import './Login.css';
 const Login = () => {
     let navigate= useNavigate();
-    const [email_responsableL, setEmail_responsableL] = useState('');
-    const [password_responsableL, setPassword_responsableL] = useState('');
+    const [email_chauffeur, setEmail_chauffeur] = useState('');
+    const [password_chauffeur, setPassword_chauffeur] = useState('');
 
     const [error, setError] = useState('');
 
@@ -20,32 +20,32 @@ const Login = () => {
                 // axios.defaults.withCredentials = true;
                 // axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 // .then(response => {
-                    axios.post('http://localhost:3000/api/responsableLivraison/login', {
-                        email_responsableL: email_responsableL,
-                        password_responsableL: password_responsableL,
+                    axios.post('http://localhost:3000/api/chauffeur/login', {
+                        email_chauffeur: email_chauffeur,
+                        password_chauffeur: password_chauffeur,
                     }).then(response => {
                             if(response.data.token){
-                                // setErrormail('')
+                            // setErrormail('')
                             // setErrorpass('')
                             setError('')
                             localStorage.setItem('auth_token',response.data.token)
 
-                            const data_login_responsableL = {
-                                email: response.data.data_login_responsableL.email_responsableL,
-                                lastname: response.data.data_login_responsableL.lastname_responsableL,
-                                name: response.data.data_login_responsableL.name_responsableL,
-                                id: response.data.data_login_responsableL._id
+                            const data_login_chauffeur = {
+                                email: response.data.data_login_chauffeur.email_chauffeur,
+                                lastname: response.data.data_login_chauffeur.lastname_chauffeur,
+                                name: response.data.data_login_chauffeur.name_chauffeur,
+                                id: response.data.data_login_chauffeur._id
                             }
-                            console.log(data_login_responsableL);
-                            localStorage.setItem('datau_user',JSON.stringify(data_login_responsableL))
+                            console.log(data_login_chauffeur);
+                            localStorage.setItem('datau_user',JSON.stringify(data_login_chauffeur))
 
                             console.log("token : ");
-                            console.log(JSON.parse(localStorage.getItem('datau_user')).email_responsableL);
-                            console.log(response.data.data_login_responsableL);
-                            
+                            console.log(JSON.parse(localStorage.getItem('datau_user')).email_chauffeur);
+                            console.log(response.data.data_login_chauffeur);
+
                             setIsLoadingsubmit(false);
                             console.log("good");
-                            navigate('/livraisant')
+                            navigate('/disponiblelivraisant')
                             }else{
                                 setIsLoadingsubmit(false);
                                 setError(response.data.err)
@@ -66,15 +66,15 @@ const Login = () => {
 
 <div className="p-4 mx-auto my-20 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
     <form className="space-y-6" onSubmit={handleSubmit}>
-        <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to  (Responsable Livraison)</h3>
+        <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to  (chauffeur)</h3>
         {error && <p className="bg-red-200 px-5 py-3 rounded-lg">{error}</p> }
         <div>
             <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
-            <input type="email" name="email" id="email" value={email_responsableL}  onChange={e => setEmail_responsableL(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required=""/>
+            <input type="email" name="email" id="email" value={email_chauffeur}  onChange={e => setEmail_chauffeur(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required=""/>
         </div>
         <div>
             <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your password</label>
-            <input type="password" name="password" id="password" value={password_responsableL}  onChange={e => setPassword_responsableL(e.target.value)} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required=""/>
+            <input type="password" name="password" id="password" value={password_chauffeur}  onChange={e => setPassword_chauffeur(e.target.value)} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required=""/>
         </div>
         <div className="flex items-start">
             <div className="flex items-start">
